@@ -1,0 +1,149 @@
+body{
+  background-color: #FAFAF5 ;
+  color: #333333; 
+  font-family: Inter;
+  font-family: "Inter", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  padding: 1rem 1rem;
+  
+}
+
+
+header {
+  text-align: center;
+  background-color: #F0F0F0; /* More vibrant and professional blue */
+  padding: 3px;
+  font-size: 0.5rem;
+  font-weight: 800;
+  color: #333333;
+  border-radius: 10px; /* Soft rounded edges */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* More depth */
+  margin-bottom: 1rem;
+  border: 1px solid #DEE2E6; /* Subtle border */
+  
+}
+
+.typeArea{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: white;
+  width: 80%;
+  align-content: center;
+  border: 1px solid;
+  border-radius: 1rem;
+  border: 1px solid #DEE2E6;
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.typebox{ 
+  border-radius: 0.5rem;
+  height: 100%;
+  width: 98%;
+  padding: 1rem;
+  text-align: left;
+  border: none;
+  background-color: transparent;
+  resize: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+
+.icon{
+  font-size: 1.5rem;
+  color: blue;
+}
+
+.submitButton{
+  border-radius: 40%;
+  background-color: inherit;
+  border: none;
+  outline: none;
+}
+
+button{
+  font-size: 14px;
+  padding: 0.5rem 1rem;
+  font-family: "Inter";
+}
+.error{
+  color: red;
+  font-size: 1rem;
+}
+
+.buttons{
+  display: flex;
+  flex-direction: row;
+  gap: 3rem;
+}
+
+.button{
+  border-radius: 1rem;
+  padding: 0.5rem;
+  border: 1px solid cornflowerblue;
+  background-color: skyblue;
+  font-size: 0.6rem;
+}
+
+.button:hover{
+  cursor: pointer;
+  background-color: aqua;
+  border: 1px solid red;
+}
+
+hr{
+  background-color: lightblue;
+  height: 0.05rem;
+  margin: 1.5rem 0;
+}
+
+.singleText{
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  gap: 0.6rem;
+}
+
+.userInput{
+  border: 1px solid #357ABD;
+  border-radius: 1rem;
+  background-color: #4A90E2;
+  padding: 0.8rem 1rem;
+  color: white;
+}
+
+.userSide{
+  align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  max-width: 50%;
+  
+}
+
+.AISide{
+  max-width: 50%;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.output{
+  background-color: #34A853;
+  padding: 1rem 1.5rem;
+  border: 1px solid #2C7D3F;
+  border-radius: 1rem;
+  color: white;
+}
+.notification{
+  color: red;
+}
