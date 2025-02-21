@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { nanoid } from 'nanoid'
 import UserInput from './components/UserInput'
@@ -7,8 +7,15 @@ import Header from './components/Header'
 
 function App() {
   
-  const { watch, register, reset, formState:  {errors, isValid}, handleSubmit } = useForm({mode:'all'})
+  const { register, reset, formState:  {errors, isValid}, handleSubmit } = useForm({mode:'all'})
   const [allSentTexts, setAllSentTexts] = useState([])
+  const textsEndRef = useRef(null)
+
+  useEffect(() => {
+    textsEndRef.current?.scrollIntoView({behavior:'smooth'},
+      [allSentTexts]
+    )
+  })
 
   const processText = async (data) => {
       const currentUserInput = {
@@ -66,7 +73,6 @@ function App() {
             item.key === inputObject.key ? { ...item, isTranslating: true } : item,
         )
     )
-    console.log(inputObject.isTranslating)
   
 
   }
@@ -166,11 +172,10 @@ function App() {
               )
             })
           }  
-          
+          <div ref={textsEndRef}> </div>
           <UserInput 
             register = {register}
             handleSend = {handleSubmit(processText)}
-            watch = {watch}
             isValid = {isValid}
             errors = {errors}
           />
