@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { nanoid } from 'nanoid'
 import UserInput from './components/UserInput'
@@ -8,53 +8,71 @@ import Header from './components/Header'
 function App() {
   
   const { watch, register, reset, formState:  {errors, isValid}, handleSubmit } = useForm({mode:'all'})
-  const [textLanguage, setTextLanguage] = useState('');
   const [allSentTexts, setAllSentTexts] = useState([])
 
   const processText = async (data) => {
       const currentUserInput = {
         key: nanoid(),
         text:data.inputText,
+        textLanguage: '',
         isTranslating: false,
         nowTranslating:false, 
         translatedText:'',
         translateLanguage:'', 
         nowSummarizing:false,
-        summarizedText:''
+        summarizedText:'',
+        error:''
+
       }
       console.log(data.inputText)
 
       setAllSentTexts((prevTexts) => [...prevTexts, currentUserInput])
-      detectTextLanguage(data.inputText)
+      detectTextLanguage(currentUserInput)
       reset()
-      //const languageDetected = await detectTextLanguage(data.inputText)
-      console.log(textLanguage)
   }
 
-  async function detectTextLanguage(text) {
-    console.log(`deecin ${text}`)
+  async function detectTextLanguage(inputObject) {
+    try{
     const detector = await self.ai.languageDetector.create()
     console.log(detector)
-    const result = await detector.detect(text)
+    const result = await detector.detect(inputObject.text)
+    console.log(inputObject.text)
+
     const detectedLanguageCode = result[0].detectedLanguage
-    setTextLanguage(detectedLanguageCode)
     console.log(detectedLanguageCode)
- 
+    setAllSentTexts((prevTexts) => 
+      prevTexts.map((item) =>
+          item.key === inputObject.key ? { ...item, textLanguage: detectedLanguageCode} : item,
+      )
+  )
+    console.log(detectedLanguageCode)
   }
+    catch(error){
+      setAllSentTexts((prevTexts) => 
+        prevTexts.map((item) =>
+            item.key === inputObject.key ? { ...item, error:'Failed to detect your text language, Chrome Language detector API not available'} : item,
+        )
+    )
+    }
+    }
+    
+    
+ 
+  
 
   async function translateText(inputObject) {
-    console.log(`translateinngg ${inputObject.text}  `)
-    console.log(inputObject.isTranslating)
-    setAllSentTexts((prevTexts) => 
+      setAllSentTexts((prevTexts) => 
         prevTexts.map((item) =>
             item.key === inputObject.key ? { ...item, isTranslating: true } : item,
         )
     )
-
     console.log(inputObject.isTranslating)
+  
+
   }
 
   async function handleLanguageChange(e,inputObject) {
+    try{ 
     const targetLanguage = e.target.value
     setAllSentTexts((prevTexts) =>
       prevTexts.map((item) =>
@@ -62,7 +80,7 @@ function App() {
   )
 
     const translator = await self.ai.translator.create({
-      sourceLanguage: textLanguage,
+      sourceLanguage: inputObject.textLanguage,
       targetLanguage: targetLanguage
     });
 
@@ -77,9 +95,22 @@ function App() {
         } : item)
   )
   } 
+  catch(error){
+    console.error(error)
+    setAllSentTexts((prevTexts) => 
+      prevTexts.map((item) =>
+          item.key === inputObject.key ? { ...item, error:'Failed to translate your text , Chrome Translator API not available',
+            nowTranslating: false}
+           : item
+      )
+  )
+  }
+}
+
 
   
   async function summarizeText(inputObject) {
+    try{ 
     setAllSentTexts((prevTexts) =>
       prevTexts.map((item) =>
         item.key === inputObject.key ? {...item, nowSummarizing:true} : item)
@@ -93,6 +124,17 @@ function App() {
         item.key === inputObject.key ? {...item, summarizedText:summary, nowSummarizing:false} : item)
   )
     console.log(summary)
+  }
+  catch (error) {
+    setAllSentTexts((prevTexts) => 
+      prevTexts.map((item) =>
+          item.key === inputObject.key ? { ...item, error: 'Failed to summarize your text , Chrome Summariser API not available',
+                nowSummarizing:false
+          } : item
+      )
+  )
+
+}
   } 
 
   
@@ -114,20 +156,20 @@ function App() {
                   sentText = {textObj.text}
                   summarize = {() => summarizeText(textObj)}
                   translate = {() => translateText(textObj)}
-                  textLanguage={textLanguage}
+                  textLanguage={textObj.textLanguage}
                   translatedText={textObj.translatedText}
                   nowTranslating={textObj.nowTranslating}
                   nowSummarizing={textObj.nowSummarizing}
                   summarizedText={textObj.summarizedText}
+                  error={textObj.error}
                 />
               )
             })
-          }
+          }  
           
           <UserInput 
             register = {register}
             handleSend = {handleSubmit(processText)}
-            textLanguage = {textLanguage}
             watch = {watch}
             isValid = {isValid}
             errors = {errors}

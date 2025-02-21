@@ -1,9 +1,14 @@
-import { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 export default function UserInput(props) {
+    const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey){
+        e.preventDefault()
+        props.handleSend()
+    }
 
+    }
     
     return(
         <form onSubmit={props.handleSend}>
@@ -17,6 +22,7 @@ export default function UserInput(props) {
             {...props.register('inputText', 
                 {required: 'Please type something'})
             } 
+            onKeyDown={handleKeyDown}
         >
         </textarea>
         <button type="submit"  onClick={props.handleSend} className="submitButton">
@@ -32,7 +38,6 @@ export default function UserInput(props) {
                 </p>
         }
         </form>
-        //</form></pre> {JSON.stringify(props.watch(), null, 2)} </pre>
         
     )
 }

@@ -6,33 +6,35 @@ body{
   font-optical-sizing: auto;
   font-weight: 300;
   font-style: normal;
-  padding: 1rem 1rem;
+  padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
-  
 }
+
+
+
 
 
 header {
   text-align: center;
-  background-color: #F0F0F0; /* More vibrant and professional blue */
+  background-color: #F0F0F0; 
   padding: 3px;
   font-size: 0.5rem;
   font-weight: 800;
   color: #333333;
-  border-radius: 10px; /* Soft rounded edges */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* More depth */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
   margin-bottom: 1rem;
-  border: 1px solid #DEE2E6; /* Subtle border */
+  border: 1px solid #DEE2E6;
   
 }
+
 
 .typeArea{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   background-color: white;
-  width: 80%;
   align-content: center;
   border: 1px solid;
   border-radius: 1rem;
@@ -44,6 +46,7 @@ header {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   align-self: flex-end;
+  width: 90%;
 }
 
 
@@ -110,6 +113,12 @@ hr{
   margin: auto;
   gap: 0.6rem;
   margin-bottom: 5rem;
+  justify-content: center;
+}
+
+.userSide, .AISide {
+  max-width: 90%;
+  word-wrap: break-word;
 }
 
 .userInput{
@@ -145,4 +154,30 @@ hr{
 }
 .notification{
   color: green;
+}
+
+
+@media (max-width: 600px) {
+  body {
+    padding: 0.5rem;
+  }
+
+  .typeArea {
+    width: 95%;
+    font-size: 0.9rem;
+  }
+
+  .userSide, .AISide {
+    max-width: 90%;
+  }
+
+  .button {
+    font-size: 0.8rem;
+    padding: 0.6rem;
+  }
+
+  .output {
+    font-size: 0.9rem;
+    padding: 0.8rem;
+  }
 }
